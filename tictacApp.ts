@@ -3,27 +3,27 @@ import playerService from "./tictacPlayerService.js";
 import boardService from "./tictacBoardService.js";
 import gameboardComponent from "./tictacComponent.js";
 import scoreboardComponent from "./scoreboardComponent.js";
-import currentplayersComponent from "./currentPlayersComponent.js";
+import currentPlayersComponent from "./currentPlayersComponent.js";
 export class tictacApp {
     public gameboard;
     public scoreboard;
-    private gameboardComponent;
-    private scoreboardComponent;
-    public currentplayersComponent;
+    public gameboardcomponent;
+    public scoreboardcomponent;
+    public currentplayerscomponent;
     constructor() {
         this.initialize();
     }
     renderGameBoard() {
         let gameboard = this.gameboard.boardGameState;
-        this.gameboardComponent.render(gameboard);
+        this.gameboardcomponent.render(gameboard);
     }
     renderScoreBoard() {
         let playerList = playerService.allPlayers;
-        this.scoreboardComponent.render(playerList);
+        this.scoreboardcomponent.render(playerList);
     }
     rendercurrentPlayersList() {
         let currentPlayerList = this.gameboard.currentPlayers;
-        this.currentplayersComponent.render(currentPlayerList);
+        this.currentplayerscomponent.render(currentPlayerList);
     }
     nextTurn() {
 
@@ -51,7 +51,9 @@ export class tictacApp {
             playerNameInputEl = playerFormEl.getElementsByTagName('input')[0],
             gameBoardEl = document.getElementById('gameboard'),
             scoreboardEl = document.getElementById('scoreboard'),
-            currentPlayersEl = document.getElementById('currentPlayers');
+            currentPlayersEl = document.getElementById('currentPlayers'),
+            gameboardInfoEl = document.getElementById('gameboardInfo'),
+            startButtonEl = gameboardInfoEl.getElementsByTagName('button')[0];
         
         //Event listeners
         playerFormEl.addEventListener('submit', function(evt: Event) {
@@ -94,16 +96,37 @@ export class tictacApp {
             _this.renderScoreBoard();
             _this.rendercurrentPlayersList();
         });
+        startButtonEl.addEventListener('click', function(evt) {
+            let event = document.createEvent('CustomEvent');
+            event.initCustomEvent('startGame', true, true, {});
+            this.dispatchEvent(event);
+        });
+        gameBoardEl.addEventListener('playerMove', function(evt: CustomEvent) {
+            if (_this.gameboard.phase === gamePhase.xTurn || _this.gameboard.phase === gamePhase.oTurn) {
+                let move = evt.detail.value;
+                if (_this.gameboard.validMove(move)) {
+                    _this.gameboard.makeMove(move);
+                    console.log(_this.gameboard.boardGameState);
+                    _this.renderGameBoard();
+                    _this.gameboard.nextPlayer();
+                }
+            }
+        });
         //Component Initialization
-        this.gameboardComponent = new gameboardComponent(gameBoardEl);
-        this.scoreboardComponent = new scoreboardComponent(scoreboardEl);
-        this.currentplayersComponent = new currentplayersComponent(currentPlayersEl);
+        _this.gameboardcomponent = new gameboardComponent(gameBoardEl);
+        _this.scoreboardcomponent = new scoreboardComponent(scoreboardEl);
+        _this.currentplayerscomponent = new currentPlayersComponent(currentPlayersEl);
         //initial rendering;
         this.renderScoreBoard();
 
         this.renderGameBoard();
 
         this.rendercurrentPlayersList();
-
+        gameboardInfoEl.addEventListener('startGame', function(evt) {
+            if (_this.gameboard.validGame()) {
+                _this.currentplayerscomponent.freezePlayerChange();
+                _this.gameboard.startGame();
+            }
+        })
     }
 }

@@ -1,9 +1,12 @@
-System.register(["./tictacPlayerService.js", "./tictacBoardService.js", "./tictacComponent.js", "./scoreboardComponent.js", "./currentPlayersComponent.js"], function (exports_1, context_1) {
+System.register(["./model.js", "./tictacPlayerService.js", "./tictacBoardService.js", "./tictacComponent.js", "./scoreboardComponent.js", "./currentPlayersComponent.js"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var tictacPlayerService_js_1, tictacBoardService_js_1, tictacComponent_js_1, scoreboardComponent_js_1, currentPlayersComponent_js_1, tictacApp;
+    var model_js_1, tictacPlayerService_js_1, tictacBoardService_js_1, tictacComponent_js_1, scoreboardComponent_js_1, currentPlayersComponent_js_1, tictacApp;
     return {
         setters: [
+            function (model_js_1_1) {
+                model_js_1 = model_js_1_1;
+            },
             function (tictacPlayerService_js_1_1) {
                 tictacPlayerService_js_1 = tictacPlayerService_js_1_1;
             },
@@ -27,15 +30,15 @@ System.register(["./tictacPlayerService.js", "./tictacBoardService.js", "./ticta
                 }
                 tictacApp.prototype.renderGameBoard = function () {
                     var gameboard = this.gameboard.boardGameState;
-                    this.gameboardComponent.render(gameboard);
+                    this.gameboardcomponent.render(gameboard);
                 };
                 tictacApp.prototype.renderScoreBoard = function () {
                     var playerList = tictacPlayerService_js_1.default.allPlayers;
-                    this.scoreboardComponent.render(playerList);
+                    this.scoreboardcomponent.render(playerList);
                 };
                 tictacApp.prototype.rendercurrentPlayersList = function () {
                     var currentPlayerList = this.gameboard.currentPlayers;
-                    this.currentplayersComponent.render(currentPlayerList);
+                    this.currentplayerscomponent.render(currentPlayerList);
                 };
                 tictacApp.prototype.nextTurn = function () {
                 };
@@ -57,7 +60,7 @@ System.register(["./tictacPlayerService.js", "./tictacBoardService.js", "./ticta
                     this.scoreboard = new tictacPlayerService_js_1.default();
                     //Element initalization
                     var _this = this;
-                    var boardEl = document.getElementsByClassName('app')[0], playerFormEl = document.getElementById('newPlayerForm'), playerNameInputEl = playerFormEl.getElementsByTagName('input')[0], gameBoardEl = document.getElementById('gameboard'), scoreboardEl = document.getElementById('scoreboard'), currentPlayersEl = document.getElementById('currentPlayers');
+                    var boardEl = document.getElementsByClassName('app')[0], playerFormEl = document.getElementById('newPlayerForm'), playerNameInputEl = playerFormEl.getElementsByTagName('input')[0], gameBoardEl = document.getElementById('gameboard'), scoreboardEl = document.getElementById('scoreboard'), currentPlayersEl = document.getElementById('currentPlayers'), gameboardInfoEl = document.getElementById('gameboardInfo'), startButtonEl = gameboardInfoEl.getElementsByTagName('button')[0];
                     //Event listeners
                     playerFormEl.addEventListener('submit', function (evt) {
                         document.querySelector('#flash_msg').className = '';
@@ -101,14 +104,36 @@ System.register(["./tictacPlayerService.js", "./tictacBoardService.js", "./ticta
                         _this.renderScoreBoard();
                         _this.rendercurrentPlayersList();
                     });
+                    startButtonEl.addEventListener('click', function (evt) {
+                        var event = document.createEvent('CustomEvent');
+                        event.initCustomEvent('startGame', true, true, {});
+                        this.dispatchEvent(event);
+                    });
+                    gameBoardEl.addEventListener('playerMove', function (evt) {
+                        if (_this.gameboard.phase === model_js_1.gamePhase.xTurn || _this.gameboard.phase === model_js_1.gamePhase.oTurn) {
+                            var move = evt.detail.value;
+                            if (_this.gameboard.validMove(move)) {
+                                _this.gameboard.makeMove(move);
+                                console.log(_this.gameboard.boardGameState);
+                                _this.renderGameBoard();
+                                _this.gameboard.nextPlayer();
+                            }
+                        }
+                    });
                     //Component Initialization
-                    this.gameboardComponent = new tictacComponent_js_1.default(gameBoardEl);
-                    this.scoreboardComponent = new scoreboardComponent_js_1.default(scoreboardEl);
-                    this.currentplayersComponent = new currentPlayersComponent_js_1.default(currentPlayersEl);
+                    _this.gameboardcomponent = new tictacComponent_js_1.default(gameBoardEl);
+                    _this.scoreboardcomponent = new scoreboardComponent_js_1.default(scoreboardEl);
+                    _this.currentplayerscomponent = new currentPlayersComponent_js_1.default(currentPlayersEl);
                     //initial rendering;
                     this.renderScoreBoard();
                     this.renderGameBoard();
                     this.rendercurrentPlayersList();
+                    gameboardInfoEl.addEventListener('startGame', function (evt) {
+                        if (_this.gameboard.validGame()) {
+                            _this.currentplayerscomponent.freezePlayerChange();
+                            _this.gameboard.startGame();
+                        }
+                    });
                 };
                 return tictacApp;
             }());

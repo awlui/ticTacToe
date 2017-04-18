@@ -3,8 +3,8 @@ import playerService from "./tictacPlayerService.js";
 let empty: number[] = [0,0,0,0,0,0,0,0,0];
 
 export default class boardService implements IboardService {
-    public player1: IplayerService;
-    public player2: IplayerService;
+    public playerX: IplayerService;
+    public playerO: IplayerService;
     public phase: gamePhase;
     public currentPlayers: IplayerService[]=[];
     constructor(public boardGameState: number[]=empty) {
@@ -18,11 +18,11 @@ export default class boardService implements IboardService {
     }
     declarePlayers() {
         if (this.currentPlayers.length === 1) {
-            this.player1 = this.currentPlayers[0];
-            this.player2 = null;
+            this.playerX = this.currentPlayers[0];
+            this.playerO = null;
         } else if (this.currentPlayers.length === 2) {
-            this.player1 = this.currentPlayers[0];
-            this.player2 = this.currentPlayers[1];
+            this.playerX = this.currentPlayers[0];
+            this.playerO = this.currentPlayers[1];
         }
     }
     removeLoadedPlayer(id: number) {
@@ -38,14 +38,30 @@ export default class boardService implements IboardService {
     validGame() {
         return (this.currentPlayers.length === 2)
     }
+    startGame() {
+        this.phase = gamePhase.xTurn;
+    }
+    validMove(move: number) {
+        if (this.boardGameState[move] === 0) {
+            return true;
+        }
+    }
+    makeMove(move: number) {
+        if (this.phase === gamePhase.xTurn) {
+            this.boardGameState[move] = 1;
+        } else if (this.phase === gamePhase.oTurn) {
+            this.boardGameState[move] = 2;
+        }
+    }
     nextPlayer() {
+        this.checkForWinner();
         let currentPlayer;
         if (this.phase === gamePhase.xTurn) {
             this.phase = gamePhase.oTurn;
-            currentPlayer = this.currentPlayers[player.O]
+            currentPlayer = this.currentPlayers[player.O - 1]
         } else if (this.phase === gamePhase.oTurn) {
             this.phase = gamePhase.xTurn;
-            currentPlayer = this.currentPlayers[player.X];
+            currentPlayer = this.currentPlayers[player.X - 1];
         }
         return currentPlayer;
     }

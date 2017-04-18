@@ -4,9 +4,13 @@ export default class currentPlayersComponent implements Icomponent {
     private $el: JQuery;
     constructor(public el: HTMLElement) {
         this.$el = $(el);
-        console.log()
+    };
+    freezePlayerChange() {
+        this.$el.find('button').css('display', 'none');
+    };
+    unfreezePlayerChange() {
+        this.$el.find('button').css('display', 'block');
     }
-
     render(currentPlayers: IplayerService[]) {
         let count = 1;
         this.$el.html('');

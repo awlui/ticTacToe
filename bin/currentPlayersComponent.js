@@ -15,8 +15,15 @@ System.register(["https://code.jquery.com/jquery-3.2.1.min.js", "./model.js"], f
                 function currentPlayersComponent(el) {
                     this.el = el;
                     this.$el = $(el);
-                    console.log();
                 }
+                ;
+                currentPlayersComponent.prototype.freezePlayerChange = function () {
+                    this.$el.find('button').css('display', 'none');
+                };
+                ;
+                currentPlayersComponent.prototype.unfreezePlayerChange = function () {
+                    this.$el.find('button').css('display', 'block');
+                };
                 currentPlayersComponent.prototype.render = function (currentPlayers) {
                     var count = 1;
                     this.$el.html('');

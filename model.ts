@@ -9,8 +9,8 @@ export interface IplayerService {
 
 export interface IboardService {
     boardGameState: number[];
-    player1: IplayerService;
-    player2: IplayerService;
+    playerX: IplayerService;
+    playerO: IplayerService;
     phase: gamePhase;
     currentPlayers: IplayerService[];
 
@@ -21,10 +21,10 @@ export interface Icomponent {
 }
 
 export enum gamePhase {
-    gameInactive = 1,
-    gameActive,
-    xTurn,
+    xTurn = 0,
     oTurn,
+    Inactive,
+    Active,
     outcome
 }
 

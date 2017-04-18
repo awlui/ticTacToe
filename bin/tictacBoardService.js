@@ -24,12 +24,12 @@ System.register(["./model.js"], function (exports_1, context_1) {
                 };
                 boardService.prototype.declarePlayers = function () {
                     if (this.currentPlayers.length === 1) {
-                        this.player1 = this.currentPlayers[0];
-                        this.player2 = null;
+                        this.playerX = this.currentPlayers[0];
+                        this.playerO = null;
                     }
                     else if (this.currentPlayers.length === 2) {
-                        this.player1 = this.currentPlayers[0];
-                        this.player2 = this.currentPlayers[1];
+                        this.playerX = this.currentPlayers[0];
+                        this.playerO = this.currentPlayers[1];
                     }
                 };
                 boardService.prototype.removeLoadedPlayer = function (id) {
@@ -45,15 +45,32 @@ System.register(["./model.js"], function (exports_1, context_1) {
                 boardService.prototype.validGame = function () {
                     return (this.currentPlayers.length === 2);
                 };
+                boardService.prototype.startGame = function () {
+                    this.phase = model_js_1.gamePhase.xTurn;
+                };
+                boardService.prototype.validMove = function (move) {
+                    if (this.boardGameState[move] === 0) {
+                        return true;
+                    }
+                };
+                boardService.prototype.makeMove = function (move) {
+                    if (this.phase === model_js_1.gamePhase.xTurn) {
+                        this.boardGameState[move] = 1;
+                    }
+                    else if (this.phase === model_js_1.gamePhase.oTurn) {
+                        this.boardGameState[move] = 2;
+                    }
+                };
                 boardService.prototype.nextPlayer = function () {
+                    this.checkForWinner();
                     var currentPlayer;
                     if (this.phase === model_js_1.gamePhase.xTurn) {
                         this.phase = model_js_1.gamePhase.oTurn;
-                        currentPlayer = this.currentPlayers[model_js_1.player.O];
+                        currentPlayer = this.currentPlayers[model_js_1.player.O - 1];
                     }
                     else if (this.phase === model_js_1.gamePhase.oTurn) {
                         this.phase = model_js_1.gamePhase.xTurn;
-                        currentPlayer = this.currentPlayers[model_js_1.player.X];
+                        currentPlayer = this.currentPlayers[model_js_1.player.X - 1];
                     }
                     return currentPlayer;
                 };

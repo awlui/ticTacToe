@@ -6,11 +6,11 @@ System.register([], function (exports_1, context_1) {
         setters: [],
         execute: function () {
             (function (gamePhase) {
-                gamePhase[gamePhase["gameInactive"] = 1] = "gameInactive";
-                gamePhase[gamePhase["gameActive"] = 2] = "gameActive";
-                gamePhase[gamePhase["xTurn"] = 3] = "xTurn";
-                gamePhase[gamePhase["oTurn"] = 4] = "oTurn";
-                gamePhase[gamePhase["outcome"] = 5] = "outcome";
+                gamePhase[gamePhase["xTurn"] = 0] = "xTurn";
+                gamePhase[gamePhase["oTurn"] = 1] = "oTurn";
+                gamePhase[gamePhase["Inactive"] = 2] = "Inactive";
+                gamePhase[gamePhase["Active"] = 3] = "Active";
+                gamePhase[gamePhase["outcome"] = 4] = "outcome";
             })(gamePhase || (gamePhase = {}));
             exports_1("gamePhase", gamePhase);
             (function (player) {

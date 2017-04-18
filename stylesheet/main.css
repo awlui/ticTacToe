@@ -1,0 +1,96 @@
+div.container {
+    margin-top: 200px;
+}
+
+#gameboard {
+    width: 360px;
+    padding: 0;
+    margin: 0 auto;
+}
+#gameboard div.panel{
+    height: 120px;
+    width: 120px;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    display: inline-block;
+}
+
+div.panel:nth-child(3n+1) {
+    border-right: 5px solid black;
+}
+
+div.panel:nth-child(3n+2) {
+    border-right: 5px solid black;
+}
+
+div.panel:nth-child(n+4) {
+    border-top: 5px solid black;
+}
+span#flash_msg {
+    display:none;
+    background-color: rgba(212, 95, 91, 1);
+    color: white;
+    width: 300px;
+    text-align: center;
+    margin: 10px 0;
+    padding: 5px;
+    opacity: 0;
+    animation: fadeIn;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+span#flash_msg.activated {
+    display: block;
+}
+ul {
+    width: 90%;
+    display: block;
+    position: relative;
+}
+#scoreboard li {
+    list-style-type: none;
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: white;
+}
+
+#scoreboard li:nth-child(even) {
+    color: white;
+    background-color: rgba(110,178,202, 1);
+}
+#scoreboard li.activated {
+    background-color: rgba(212, 207, 91, 1) !important;
+}
+#scoreboard li span {
+    float: right;
+    width: 40px;
+}
+
+button.close {
+    position: relative;
+    right: 0;
+}
+#currentPlayers li {
+    list-style-type: none;
+    margin: 0;
+}
+#currentPlayers button {
+    font-size: 1.5em;
+    background-color: white;
+    width: 20px;
+}
+#currentPlayers li:nth-child(odd) {
+    color: white;
+    background-color: rgba(212, 95, 91, 1);
+}
+

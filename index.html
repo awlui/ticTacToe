@@ -1,0 +1,47 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TypeScript Todo</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="stylesheet/main.css">
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Scoreboard</h2>
+                    <div id="newPlayerForm">
+                        <form action="">
+                            <span id="flash_msg">Name Already Exists</span>
+                            <label for="#newPlayer">New Player Name</label>
+                            <input type="text" id="newPlayer">
+                            <input type="submit" value="Submit">
+                    </form>
+                    </div>
+                    <ul id="scoreboard"></ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div id="gameboard" class="col-xs-12"></div>
+                    </div>
+                    <div class="row">
+                        <button>Start Game</button>
+                        <h3 >Current Players:</h3>
+                        <ul id="currentPlayers"></ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.12/system.js"></script>
+            <script>   
+
+            System.import('tictacApp.js').then(function(module) {
+                var app = new module.tictacApp();
+            })
+        </script>
+    </body>
+</html>

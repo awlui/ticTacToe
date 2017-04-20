@@ -17,33 +17,18 @@ System.register(["https://code.jquery.com/jquery-3.2.1.min.js", "./model.js"], f
                     this.$el = $(el);
                 }
                 ;
-                currentPlayersComponent.prototype.freezePlayerChange = function () {
-                    this.$el.find('button').css('display', 'none');
-                };
-                ;
-                currentPlayersComponent.prototype.unfreezePlayerChange = function () {
-                    this.$el.find('button').css('display', 'block');
-                };
                 currentPlayersComponent.prototype.render = function (currentPlayers) {
-                    var count = 1;
+                    var count = 0;
                     this.$el.html('');
                     if (currentPlayers.length === 0) {
+                        this.$el.append('<li>No Players currently loaded</li>');
                         return;
                     }
-                    var _loop_1 = function (player) {
-                        var loadedPlayer = $("<li>Player " + model_js_1.player[count] + ": " + player.name + "</li>");
-                        loadedPlayer.append($("<button type=\"button\" class=\"close\" aria-label=\"Close\">\n                        <span aria-hidden=\"true\">&times;</span>\n                        </button>").on('click', function (evt) {
-                            var event = document.createEvent('CustomEvent');
-                            event.initCustomEvent('removePlayer', true, true, { id: player.id });
-                            this.dispatchEvent(event);
-                        }));
-                        loadedPlayer.appendTo(this_1.$el);
-                        count++;
-                    };
-                    var this_1 = this;
                     for (var _i = 0, currentPlayers_1 = currentPlayers; _i < currentPlayers_1.length; _i++) {
                         var player = currentPlayers_1[_i];
-                        _loop_1(player);
+                        var loadedPlayer = $("<li class=\"" + model_js_1.player[count] + "\">Player " + model_js_1.player[count] + ": " + player.name + "</li>");
+                        loadedPlayer.appendTo(this.$el);
+                        count++;
                     }
                 };
                 ;

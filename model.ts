@@ -25,10 +25,12 @@ export enum gamePhase {
     oTurn,
     Inactive,
     Active,
-    outcome
+    xWinner,
+    oWinner,
+    Draw
 }
 
 export enum player {
-    X = 1,
-    O = 2
+    X = 0,
+    O = 1
 }

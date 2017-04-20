@@ -5,7 +5,12 @@ export default class scoreboardComponent implements Icomponent {
     constructor(public el: HTMLElement) {
         this.$el = $(el);
     }
-
+    activateGame() {
+        $('#scoreboard.gameInactive').removeClass('gameInactive');
+    }
+    inactivateGame() {
+        $('#scoreboard').addClass('gameInactive');
+    }
     render(allPlayers: IplayerService[]) {
         this.$el.html('');
         this.$el.append('<li>Player Name <span>Score</span></li>')
@@ -17,7 +22,11 @@ export default class scoreboardComponent implements Icomponent {
                         this.dispatchEvent(event);
                     })
             if (player.currentlyPlaying) {
-                newPlayer.addClass('activated');
+                newPlayer.addClass('activated').on('click', function(evt) {
+                            let event = document.createEvent('CustomEvent');
+                            event.initCustomEvent('removePlayer', true, true, {id: player.id});
+                            this.dispatchEvent(event);
+                        });
             }
             
             newPlayer.appendTo(this.$el);

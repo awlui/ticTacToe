@@ -73,7 +73,9 @@ ul {
     padding-left: 20px;
     background-color: white;
 }
-
+#scoreboard.gameInactive li:nth-child(n+2):hover {
+    background-color: rgba(212, 207, 91, 0.7) !important;
+}
 #scoreboard li:nth-child(even) {
     color: white;
     background-color: rgba(110,178,202, 1);
@@ -99,8 +101,80 @@ button.close {
     background-color: white;
     width: 20px;
 }
-#currentPlayers li:nth-child(odd) {
+#currentPlayers li.X {
     color: white;
     background-color: rgba(212, 95, 91, 1);
 }
+#currentPlayers li.O {
+    color: white;
+    background-color: rgba(129,200,132, 1);
+}
 
+div.panel.freePanelO:hover::after {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left: 40px;
+    font-size: 3em;
+    top: 20px;
+    color: rgba(129,200,132, 0.7);
+    content: "O"
+
+}
+div.panel.freePanelX:hover::after {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left: 40px;
+    font-size: 3em;
+    top: 20px;
+    color: rgba(212, 95, 91, 0.7);
+    content: "X";
+}
+div.gameboardWrapper {
+    width: 100%;
+}
+
+div.panel.X span {
+    color: rgba(212, 95, 91, 1);
+}
+
+div.panel.O span {
+    color: rgba(129,200,132, 1);
+}
+
+#gameOptions {
+    text-align: center;
+}
+
+#gameOptions button {
+    padding: 10px;
+    margin: 10px;
+}
+
+.wrapper {
+    text-align: center;
+}
+#gamePhase {
+    font-size: 2em;
+}
+
+#gamePhase > span.X {
+    color: rgba(212, 95, 91, 1);
+}
+#gamePhase > span.O {
+    color: rgba(129,200,132, 1);
+}
+
+.animatedTic {
+    animation-name: fadeOut;
+    animation-duration: 1000;
+}
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

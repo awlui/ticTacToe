@@ -5,27 +5,16 @@ export default class currentPlayersComponent implements Icomponent {
     constructor(public el: HTMLElement) {
         this.$el = $(el);
     };
-    freezePlayerChange() {
-        this.$el.find('button').css('display', 'none');
-    };
-    unfreezePlayerChange() {
-        this.$el.find('button').css('display', 'block');
-    }
+
     render(currentPlayers: IplayerService[]) {
-        let count = 1;
+        let count = 0;
         this.$el.html('');
         if (currentPlayers.length === 0) {
+            this.$el.append('<li>No Players currently loaded</li>')
             return;
         }
         for (let player of currentPlayers) {
-            let loadedPlayer = $(`<li>Player ${playerEnum[count]}: ${player.name}</li>`);
-            loadedPlayer.append($(`<button type="button" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>`).on('click', function(evt) {
-                            let event = document.createEvent('CustomEvent');
-                            event.initCustomEvent('removePlayer', true, true, {id: player.id});
-                            this.dispatchEvent(event);
-                        }));
+            let loadedPlayer = $(`<li class="${playerEnum[count]}">Player ${playerEnum[count]}: ${player.name}</li>`);
             loadedPlayer.appendTo(this.$el);
             count++;           
         }

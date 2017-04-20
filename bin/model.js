@@ -10,12 +10,14 @@ System.register([], function (exports_1, context_1) {
                 gamePhase[gamePhase["oTurn"] = 1] = "oTurn";
                 gamePhase[gamePhase["Inactive"] = 2] = "Inactive";
                 gamePhase[gamePhase["Active"] = 3] = "Active";
-                gamePhase[gamePhase["outcome"] = 4] = "outcome";
+                gamePhase[gamePhase["xWinner"] = 4] = "xWinner";
+                gamePhase[gamePhase["oWinner"] = 5] = "oWinner";
+                gamePhase[gamePhase["Draw"] = 6] = "Draw";
             })(gamePhase || (gamePhase = {}));
             exports_1("gamePhase", gamePhase);
             (function (player) {
-                player[player["X"] = 1] = "X";
-                player[player["O"] = 2] = "O";
+                player[player["X"] = 0] = "X";
+                player[player["O"] = 1] = "O";
             })(player || (player = {}));
             exports_1("player", player);
         }

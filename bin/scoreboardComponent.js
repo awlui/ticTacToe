@@ -13,6 +13,12 @@ System.register(["https://code.jquery.com/jquery-3.2.1.min.js"], function (expor
                     this.el = el;
                     this.$el = $(el);
                 }
+                scoreboardComponent.prototype.activateGame = function () {
+                    $('#scoreboard.gameInactive').removeClass('gameInactive');
+                };
+                scoreboardComponent.prototype.inactivateGame = function () {
+                    $('#scoreboard').addClass('gameInactive');
+                };
                 scoreboardComponent.prototype.render = function (allPlayers) {
                     this.$el.html('');
                     this.$el.append('<li>Player Name <span>Score</span></li>');
@@ -24,7 +30,11 @@ System.register(["https://code.jquery.com/jquery-3.2.1.min.js"], function (expor
                             this.dispatchEvent(event);
                         });
                         if (player.currentlyPlaying) {
-                            newPlayer.addClass('activated');
+                            newPlayer.addClass('activated').on('click', function (evt) {
+                                var event = document.createEvent('CustomEvent');
+                                event.initCustomEvent('removePlayer', true, true, { id: player.id });
+                                this.dispatchEvent(event);
+                            });
                         }
                         newPlayer.appendTo(this_1.$el);
                     };

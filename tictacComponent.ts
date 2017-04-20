@@ -6,19 +6,30 @@ export default class tictacComponent {
         this.$el = $(el);
     }
 
-    render(board: number[], phase: gamePhase = gamePhase.Inactive, isHuman: boolean=true) {
+    render(board: number[], phase: gamePhase, isHuman: boolean=true) {
         let count = 0;
+        let magicbox = [8,1,6,3,5,7,4,9,2];
         this.$el.html('');
         function panelGenerator(value: string) {
             if (isHuman) {
-                return $(`<div class="panel" data-value="${count++}"><span>${value}</span></div>`).on('click', function(evt) {
+                let panel = $(`<div class="panel" data-place="${count}" data-value="${magicbox[count]}"><span>${value}</span></div>`)
+                .on('click', function(evt) {
                     let event = document.createEvent('CustomEvent');
-                    console.log($(this).data('value'));
-                    event.initCustomEvent('playerMove', true, true, { value: $(this).data('value')});
+                    event.initCustomEvent('playerMove', true, true, { value: $(this).data('value'), place: $(this).data('place')});
                     this.dispatchEvent(event);
-                });
+                })
+                .addClass(`${value}`);
+                if (value === '') {
+                    if (phase === gamePhase.xTurn) {
+                        panel.addClass('freePanelX');
+                    } else if (phase === gamePhase.oTurn) {
+                        panel.addClass('freePanelO');
+                    }
+                }
+                count++;
+                return panel;
             }
-            return $(`<div class="panel"><span>#${value}</span></div>`);
+            return $(`<div class="panel"><span>${value}</span></div>`);
         }
         for (let panelValue of board) {
             if (panelValue === 0) {
